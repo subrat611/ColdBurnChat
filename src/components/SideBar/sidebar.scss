@@ -1,0 +1,25 @@
+.sidebar-wrapper {
+  width: 20vw;
+  height: 100vh;
+  background: #1d1c20;
+  box-shadow: #1d1c20 0px 2px 8px 0px;
+
+  .sidebar-header {
+    .logo-container {
+      color: rgb(216, 216, 216);
+      display: flex;
+      padding: 2rem 1.5rem;
+      align-items: center;
+
+      .chat-logo {
+        height: 60px;
+        width: 60px;
+      }
+
+      .logo-title {
+        font-size: 1.5rem;
+        margin-left: 1rem;
+      }
+    }
+  }
+}
