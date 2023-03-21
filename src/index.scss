@@ -1,6 +1,8 @@
+@use "./scss/fonts" as *;
+
 html {
-    box-sizing: border-box;
-    font-size: 100%;
+  box-sizing: border-box;
+  font-size: 100%;
 }
 
 *,
@@ -13,4 +15,5 @@ html {
 
 body {
     scroll-behavior: smooth;
+    font-family: $font-opensans;
 }
