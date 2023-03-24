@@ -5,11 +5,33 @@
   width: 80vw;
   height: 100vh;
   background: rgba(56, 56, 56, 0.281);
+  display: flex;
+  flex-direction: column;
   color: $primary-bg;
   font-family: $font-opensans;
 
+  .main-chat-header {
+    width: fit-content;
+    padding: 1rem 0;
+    align-self: center;
+
+    &-chat-name {
+      font-weight: $fw-opensans-semibold;
+      padding: 0.2rem 0.8rem;
+      border-radius: 50px;
+
+      &.online {
+        background-color: #2dc653;
+      }
+
+      &.offline {
+        background-color: #e63946;
+      }
+    }
+  }
+
   .main-chat-body {
-    height: 90%;
+    flex: 1;
     overflow: scroll;
     overflow-x: hidden;
     padding: 2rem;
