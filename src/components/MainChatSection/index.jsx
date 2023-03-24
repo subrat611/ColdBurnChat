@@ -1,10 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { readCollectionFromFirestoreBasedOnId } from "../../firebase";
+
 import sendIcon from "../../assets/paper.png";
 
 import "./mainchat.scss";
 
 export default function MainChatSection() {
   const [msg, setMsg] = useState("");
+  const [roomStatus, setRoomStatus] = useState("");
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    if (roomId) {
+      readSpecificDocFromFirestore();
+    }
+  }, [roomId]);
+
+  const readSpecificDocFromFirestore = async () => {
+    const docSnap = await readCollectionFromFirestoreBasedOnId("rooms", roomId);
+    if (docSnap.exists()) {
+      setRoomStatus({
+        name: docSnap.data().name,
+        status: docSnap.data().status,
+      });
+    }
+  };
 
   const msgHandler = (e) => {
     e.preventDefault();
@@ -13,6 +35,11 @@ export default function MainChatSection() {
 
   return (
     <div className="main-chat-wrapper">
+      <div className="main-chat-header">
+        <p className={`main-chat-header-chat-name ${roomStatus.status}`}>
+          {roomStatus.name}
+        </p>
+      </div>
       <div className="main-chat-body">
         <div className="main-chat-body-msg-sender">
           <p className="msg">Hii...</p>
