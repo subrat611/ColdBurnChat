@@ -1,3 +1,5 @@
+import { Routes, Route } from "react-router-dom";
+
 import SideBar from "./components/SideBar";
 import MainChatSection from "./components/MainChatSection";
 
@@ -7,8 +9,11 @@ function App() {
   return (
     <div className="app_wrapper">
       <div className="app_container">
-        <SideBar />
-        <MainChatSection />
+        <Routes>
+          <Route path="/" element={<SideBar />}>
+            <Route path="/rooms/:roomId" element={<MainChatSection />} />
+          </Route>
+        </Routes>
       </div>
     </div>
   );
