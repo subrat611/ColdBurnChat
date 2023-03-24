@@ -1,7 +1,7 @@
 import "./sidebar.scss";
 
 import chatIcon from "../../assets/chat.png";
-import Chat from "../Chat";
+import SidebarChat from "../SidebarChat";
 
 export default function SideBar() {
   return (
@@ -28,14 +28,14 @@ export default function SideBar() {
       <div className="sidebar-chats">
         <h2 className="sidebar-chats-title">Chats</h2>
         <div className="sidebar-chats-user-container">
-          <Chat />
-          <Chat />
-          <Chat />
-          <Chat />
-          <Chat />
-          <Chat />
-          <Chat />
-          <Chat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
+          <SidebarChat />
         </div>
       </div>
     </div>
