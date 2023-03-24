@@ -1,4 +1,12 @@
 import { initializeApp } from "firebase/app";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -20,3 +28,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app); // Initialize Authentication and get a reference to the service
+const db = getFirestore(app); // Initialize Cloud Firestore and get a reference to the service
+
+export const readCollectionFromFirestore = async (dbName) => {
+  return await getDocs(collection(db, dbName));
+};
+
+export const readCollectionFromFirestoreBasedOnId = async (dbName, id) => {
+  return await getDoc(doc(db, dbName, id));
+};
