@@ -1,0 +1,43 @@
+@use "../../scss/fonts" as *;
+@use "../../scss/colors" as *;
+
+.chat-wrapper {
+  color: $primary-bg;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1rem;
+  background-color: #f1faee09;
+  font-family: $font-opensans;
+  border-radius: 13px;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  cursor: pointer;
+  margin: 1rem 0;
+
+  .chat-profile {
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+    background-color: #1d1c20;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: inherit;
+    }
+  }
+
+  .chat-profile-info {
+    margin: 0 0 0 1rem;
+
+    .chat-name {
+      text-transform: capitalize;
+    }
+
+    .chat-last-message {
+      line-height: 1.4rem;
+    }
+  }
+}
