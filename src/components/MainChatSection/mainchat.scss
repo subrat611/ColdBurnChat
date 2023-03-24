@@ -1,0 +1,99 @@
+@use "../../scss/colors" as *;
+@use "../../scss//fonts" as *;
+
+.main-chat-wrapper {
+  width: 80vw;
+  height: 100vh;
+  background: rgba(56, 56, 56, 0.281);
+  color: $primary-bg;
+  font-family: $font-opensans;
+
+  .main-chat-body {
+    height: 90%;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .main-chat-body-msg-sender,
+    .main-chat-body-msg-receiver {
+      color: $primary-dark-bg;
+      background-color: $primary-bg;
+      width: fit-content;
+      padding: 0.5rem 1rem;
+      border-radius: 50px;
+      font-weight: $fw-opensans-semibold;
+      display: flex;
+      align-items: center;
+
+      .time-stamp {
+        font-size: 0.8rem;
+        margin: 0 0 0 1rem;
+        color: $primary-bg;
+        background-color: #8338ec;
+        padding: 0.2rem 0.5rem;
+        border-radius: 50px;
+      }
+    }
+
+    .main-chat-body-msg-receiver {
+      margin-top: 3rem;
+      background-color: #b9fbc0;
+    }
+
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: auto;
+      background-color: #000;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #aaa;
+    }
+  }
+
+  .main-chat-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .footer-message-box {
+      flex: 0.98;
+      input {
+        outline: none;
+        border: none;
+        width: 100%;
+        padding: 0.8rem 1.1rem;
+        font-size: 1.1rem;
+        background-color: $primary-bg;
+        border-radius: 3px;
+        font-family: $font-opensans;
+        letter-spacing: 0.05em;
+        background-color: $primary-bg;
+      }
+    }
+
+    .footer-send-btn {
+      all: unset;
+      display: flex;
+      align-items: center;
+      color: rgba(223, 223, 223, 0.89);
+
+      img {
+        height: 30px;
+        width: 30px;
+        margin-right: 0.5rem;
+      }
+      background-color: rgba(68, 68, 68, 0.671);
+      padding: 0.8rem 1rem;
+      border-radius: 7px;
+      font-family: $font-opensans;
+      font-size: 1.1rem;
+      font-weight: $fw-opensans-semibold;
+      text-transform: capitalize;
+      cursor: pointer;
+    }
+  }
+}
