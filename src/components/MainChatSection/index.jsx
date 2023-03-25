@@ -26,8 +26,6 @@ export default function MainChatSection() {
         name: docSnap.data().name,
         status: docSnap.data().status,
       });
-
-      docSnap.data().msg.map((data) => setServerMsg((prev) => [...prev, data]));
     }
   };
 
