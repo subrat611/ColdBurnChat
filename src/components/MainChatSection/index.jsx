@@ -10,6 +10,7 @@ import "./mainchat.scss";
 export default function MainChatSection() {
   const [msg, setMsg] = useState("");
   const [roomStatus, setRoomStatus] = useState("");
+  const [serverMsg, setServerMsg] = useState([]);
   const { roomId } = useParams();
 
   useEffect(() => {
@@ -25,6 +26,8 @@ export default function MainChatSection() {
         name: docSnap.data().name,
         status: docSnap.data().status,
       });
+
+      docSnap.data().msg.map((data) => setServerMsg((prev) => [...prev, data]));
     }
   };
 
@@ -41,14 +44,14 @@ export default function MainChatSection() {
         </p>
       </div>
       <div className="main-chat-body">
-        <div className="main-chat-body-msg-sender">
-          <p className="msg">Hii...</p>
-          <span className="time-stamp">12.00</span>
-        </div>
-        <div className="main-chat-body-msg-receiver">
-          <p className="msg">Hii...</p>
-          <span className="time-stamp">12.30</span>
-        </div>
+        {serverMsg.length > 0
+          ? serverMsg.map(({ text, owner, timeStamp }, i) => (
+              <div className={`main-chat-body-msg-${owner}`} key={i}>
+                <p className="msg">{text}</p>
+                <span className="time-stamp">12.00</span>
+              </div>
+            ))
+          : null}
       </div>
       <form className="main-chat-footer" onSubmit={(e) => msgHandler(e)}>
         <div className="footer-message-box">
