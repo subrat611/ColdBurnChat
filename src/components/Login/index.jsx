@@ -19,7 +19,7 @@ export default function Login() {
 
       if (!state.user) {
         await createUserInformationInFireStore(
-          "rooms",
+          "users",
           user.uid,
           displayName,
           "online"
