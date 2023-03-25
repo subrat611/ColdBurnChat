@@ -1,8 +1,27 @@
-import chatIcon from "../../assets/chat.png";
+import { useState } from "react";
+import { signInAnonymouslyWithFirebase } from "../../firebase";
 
+import { useStateValue } from "../context/User";
+import { SETUSER } from "../reducer";
+
+import chatIcon from "../../assets/chat.png";
 import "./login.scss";
 
 export default function Login() {
+  const [displayName, setDisplayname] = useState("");
+  const [_, dispatch] = useStateValue();
+
+  const handleLogin = async () => {
+    if (displayName !== "") {
+      const { user } = await signInAnonymouslyWithFirebase();
+      dispatch({
+        type: SETUSER,
+        user: user,
+        displayName: displayName,
+      });
+    } else alert("Please enter a display name");
+  };
+
   return (
     <div className="login-wrapper">
       <div className="login-img">
@@ -17,9 +36,11 @@ export default function Login() {
             name="displayName"
             id="InputField"
             placeholder="Enter a name"
+            value={displayName}
+            onChange={(e) => setDisplayname(e.target.value)}
           />
         </div>
-        <button className="login-btn" type="button">
+        <button className="login-btn" type="button" onClick={handleLogin}>
           anonymous login
         </button>
       </div>

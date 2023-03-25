@@ -6,7 +6,7 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -38,4 +38,8 @@ export const readCollectionFromFirestore = async (dbName) => {
 
 export const readCollectionFromFirestoreBasedOnId = async (dbName, id) => {
   return await getDoc(doc(db, dbName, id));
+};
+
+export const signInAnonymouslyWithFirebase = async () => {
+  return await signInAnonymously(auth);
 };
