@@ -5,8 +5,9 @@ import {
   getDocs,
   getDoc,
   doc,
+  setDoc,
 } from "firebase/firestore";
-import { getAuth, signInAnonymously } from "firebase/auth";
+import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -32,6 +33,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app); // Initialize Authentication and get a reference to the service
 const db = getFirestore(app); // Initialize Cloud Firestore and get a reference to the service
 
+export const signInAnonymouslyWithFirebase = async () => {
+  return await signInAnonymously(auth);
+};
+
+export const onAuthStateChangedListener = (listenerCallback) =>
+  onAuthStateChanged(auth, listenerCallback);
+
 export const readCollectionFromFirestore = async (dbName) => {
   return await getDocs(collection(db, dbName));
 };
@@ -40,6 +48,14 @@ export const readCollectionFromFirestoreBasedOnId = async (dbName, id) => {
   return await getDoc(doc(db, dbName, id));
 };
 
-export const signInAnonymouslyWithFirebase = async () => {
-  return await signInAnonymously(auth);
+export const createUserInformationInFireStore = async (
+  dbName,
+  uid,
+  displayName,
+  status
+) => {
+  return await setDoc(doc(db, dbName, uid), {
+    name: displayName,
+    status: status,
+  });
 };
