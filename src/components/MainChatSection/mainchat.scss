@@ -36,7 +36,8 @@
     overflow-x: hidden;
     padding: 2rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: flex-start;
 
     .main-chat-body-msg-sender,
@@ -49,6 +50,7 @@
       font-weight: $fw-opensans-semibold;
       display: flex;
       align-items: center;
+      margin-top: 2rem;
 
       .time-stamp {
         font-size: 0.8rem;
@@ -61,7 +63,7 @@
     }
 
     .main-chat-body-msg-receiver {
-      margin-top: 3rem;
+      align-self: flex-end;
       background-color: #b9fbc0;
     }
 
@@ -92,7 +94,7 @@
         background-color: $primary-bg;
         border-radius: 3px;
         font-family: $font-opensans;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.03em;
         background-color: $primary-bg;
       }
     }
