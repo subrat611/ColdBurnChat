@@ -1,24 +1,30 @@
 import { useState } from "react";
-import { signInAnonymouslyWithFirebase } from "../../firebase";
+import {
+  createUserInformationInFireStore,
+  signInAnonymouslyWithFirebase,
+} from "../../firebase";
 
 import { useStateValue } from "../context/User";
-import { SETUSER } from "../reducer";
 
 import chatIcon from "../../assets/chat.png";
 import "./login.scss";
 
 export default function Login() {
   const [displayName, setDisplayname] = useState("");
-  const [_, dispatch] = useStateValue();
+  const [state, _] = useStateValue();
 
   const handleLogin = async () => {
     if (displayName !== "") {
       const { user } = await signInAnonymouslyWithFirebase();
-      dispatch({
-        type: SETUSER,
-        user: user,
-        displayName: displayName,
-      });
+
+      if (!state.user) {
+        await createUserInformationInFireStore(
+          "rooms",
+          user.uid,
+          displayName,
+          "online"
+        );
+      }
     } else alert("Please enter a display name");
   };
 
