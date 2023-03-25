@@ -3,6 +3,8 @@ import { Outlet } from "react-router-dom";
 
 import { readCollectionFromFirestore } from "../../firebase";
 
+import { useStateValue } from "../context/User";
+
 import chatIcon from "../../assets/chat.png";
 import SidebarChat from "../SidebarChat";
 
@@ -10,6 +12,8 @@ import "./sidebar.scss";
 
 export default function SideBar() {
   const [rooms, setRooms] = useState([]);
+
+  const [state, _] = useStateValue();
 
   useEffect(() => {
     const unsubscribe = readCollection();
@@ -39,7 +43,7 @@ export default function SideBar() {
                 alt="profile-image"
               />
             </div>
-            <h2 className="sidebar-profile-name">flex frady</h2>
+            <h2 className="sidebar-profile-name">{state.displayName}</h2>
             <div className="sidebar-profile-status">
               <div className="status-active-icon"></div>
               <span className="status-title">Active</span>
