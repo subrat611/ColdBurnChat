@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useReducer } from "react";
 import {
   onAuthStateChangedListener,
   readCollectionFromFirestoreBasedOnId,
-  createUserInformationInFireStore,
 } from "../../firebase";
 import { initialState, reducer, SETUSER } from "../reducer";
 
@@ -22,17 +21,16 @@ export const UserProvider = ({ children }) => {
   const setUserInfo = async (user) => {
     if (user) {
       const docSnap = await readCollectionFromFirestoreBasedOnId(
-        "rooms",
+        "users",
         user.uid
       );
-      if (docSnap.exists()) {
-        dispatch({
-          type: SETUSER,
-          user: user,
-          displayName: docSnap.data().name,
-          status: docSnap.data().status,
-        });
-      }
+
+      dispatch({
+        type: SETUSER,
+        user: user,
+        displayName: docSnap.data().name,
+        status: docSnap.data().status,
+      });
     }
   };
 
