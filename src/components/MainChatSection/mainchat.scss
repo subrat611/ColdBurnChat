@@ -51,9 +51,26 @@
       display: flex;
       align-items: center;
       margin-top: 2rem;
+      position: relative;
+
+      .msg-owner-sender-name,
+      .msg-owner-receiver-name {
+        position: absolute;
+        top: -25px;
+        color: $primary-bg;
+        text-transform: capitalize;
+      }
+
+      .msg-owner-sender-name {
+        left: 10px;
+      }
+
+      .msg-owner-receiver-name {
+        right: 10px;
+      }
 
       .time-stamp {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         margin: 0 0 0 1rem;
         color: $primary-bg;
         background-color: #8338ec;
