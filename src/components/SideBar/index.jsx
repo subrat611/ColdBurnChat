@@ -46,7 +46,7 @@ export default function SideBar() {
             <h2 className="sidebar-profile-name">{state.displayName}</h2>
             <div className="sidebar-profile-status">
               <div className="status-active-icon"></div>
-              <span className="status-title">Active</span>
+              <span className="status-title">{state.status}</span>
             </div>
           </div>
         </div>

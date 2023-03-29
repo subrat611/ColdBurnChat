@@ -1,7 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { readCollectionFromFirestoreBasedOnId } from "../../firebase";
+import {
+  addDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
+import {
+  readCollectionFromFirestoreBasedOnId,
+  readNestedCollectionFromFirestore,
+} from "../../firebase";
+
+import { useStateValue } from "../context/User";
 
 import sendIcon from "../../assets/paper.png";
 
@@ -13,9 +25,32 @@ export default function MainChatSection() {
   const [serverMsg, setServerMsg] = useState([]);
   const { roomId } = useParams();
 
+  const [state, _] = useStateValue();
+
+  const nestDocSnap = readNestedCollectionFromFirestore(
+    "rooms",
+    "debZmwHYzaZlujCHfGgp",
+    "messages"
+  );
+
   useEffect(() => {
+    setServerMsg([]);
     if (roomId) {
       readSpecificDocFromFirestore();
+
+      const sortByTimeStampNestDocSnap = query(
+        nestDocSnap,
+        orderBy("timestamp")
+      );
+
+      const unsubscribe = onSnapshot(
+        sortByTimeStampNestDocSnap,
+        (querySnapshot) => {
+          setServerMsg(querySnapshot.docs.map((doc) => doc.data()));
+        }
+      );
+
+      return unsubscribe;
     }
   }, [roomId]);
 
@@ -29,8 +64,20 @@ export default function MainChatSection() {
     }
   };
 
-  const msgHandler = (e) => {
+  const msgHandler = async (e) => {
     e.preventDefault();
+
+    try {
+      const newMsg = {
+        text: msg,
+        name: state.displayName,
+        timestamp: serverTimestamp(),
+      };
+      addDoc(nestDocSnap, newMsg);
+    } catch (err) {
+      alert("Message not add to db some error occur");
+    }
+
     setMsg("");
   };
 
@@ -43,10 +90,25 @@ export default function MainChatSection() {
       </div>
       <div className="main-chat-body">
         {serverMsg.length > 0
-          ? serverMsg.map(({ text, owner, timeStamp }, i) => (
-              <div className={`main-chat-body-msg-${owner}`} key={i}>
+          ? serverMsg.map(({ text, name, timestamp }, i) => (
+              <div
+                className={`main-chat-body-msg-${
+                  name === state.displayName ? "sender" : "receiver"
+                }`}
+                key={i}
+              >
+                <p
+                  className={`msg-owner-${
+                    name === state.displayName ? "sender" : "receiver"
+                  }-name
+                `}
+                >
+                  {name}
+                </p>
                 <p className="msg">{text}</p>
-                <span className="time-stamp">12.00</span>
+                {/* <span className="time-stamp">
+                  {}
+                </span> */}
               </div>
             ))
           : null}

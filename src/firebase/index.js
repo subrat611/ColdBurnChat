@@ -31,7 +31,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app); // Initialize Authentication and get a reference to the service
-const db = getFirestore(app); // Initialize Cloud Firestore and get a reference to the service
+export const db = getFirestore(app); // Initialize Cloud Firestore and get a reference to the service
 
 export const signInAnonymouslyWithFirebase = async () => {
   return await signInAnonymously(auth);
@@ -46,6 +46,10 @@ export const readCollectionFromFirestore = async (dbName) => {
 
 export const readCollectionFromFirestoreBasedOnId = async (dbName, id) => {
   return await getDoc(doc(db, dbName, id));
+};
+
+export const readNestedCollectionFromFirestore = (dbName, id, nestDbName) => {
+  return collection(db, dbName, id, nestDbName);
 };
 
 export const createUserInformationInFireStore = async (
