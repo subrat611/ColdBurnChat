@@ -6,6 +6,7 @@ import {
   getDoc,
   doc,
   setDoc,
+  addDoc,
 } from "firebase/firestore";
 import { getAuth, signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
@@ -40,16 +41,27 @@ export const signInAnonymouslyWithFirebase = async () => {
 export const onAuthStateChangedListener = (listenerCallback) =>
   onAuthStateChanged(auth, listenerCallback);
 
-export const readCollectionFromFirestore = async (dbName) => {
-  return await getDocs(collection(db, dbName));
+export const readCollectionFromFirestore = (dbName) => {
+  return collection(db, dbName);
+};
+
+export const readNestedCollectionFromFirestore = (dbName, id, nestDbName) => {
+  return collection(db, dbName, id, nestDbName);
 };
 
 export const readCollectionFromFirestoreBasedOnId = async (dbName, id) => {
   return await getDoc(doc(db, dbName, id));
 };
 
-export const readNestedCollectionFromFirestore = (dbName, id, nestDbName) => {
-  return collection(db, dbName, id, nestDbName);
+export const createRoomInFireStoreBasedOnUserId = async (
+  dbName,
+  roomName,
+  status
+) => {
+  return await addDoc(collection(db, dbName), {
+    name: roomName,
+    status: status,
+  });
 };
 
 export const createUserInformationInFireStore = async (
