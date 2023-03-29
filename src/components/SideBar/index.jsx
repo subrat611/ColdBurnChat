@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 
-import { readCollectionFromFirestore } from "../../firebase";
+import {
+  createRoomInFireStoreBasedOnUserId,
+  readCollectionFromFirestore,
+} from "../../firebase";
 
 import { useStateValue } from "../context/User";
 
 import chatIcon from "../../assets/chat.png";
 import SidebarChat from "../SidebarChat";
 
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
+
 import "./sidebar.scss";
 
 export default function SideBar() {
   const [rooms, setRooms] = useState([]);
+  const [inputDialog, setinputDialog] = useState({
+    isVisible: false,
+    roomName: "",
+  });
 
   const [state, _] = useStateValue();
 
@@ -21,11 +35,48 @@ export default function SideBar() {
     return () => unsubscribe;
   }, []);
 
-  const readCollection = async () => {
-    const querySnapshot = await readCollectionFromFirestore("rooms");
-    querySnapshot.forEach((doc) => {
-      setRooms((prev) => [...prev, { id: doc.id, data: doc.data() }]);
-    });
+  const readCollection = () => {
+    const querySnapshot = readCollectionFromFirestore("rooms");
+
+    onSnapshot(querySnapshot, (querySnapshot) =>
+      setRooms(
+        querySnapshot.docs.map((doc) => ({ id: doc.id, data: doc.data() }))
+      )
+    );
+
+    // querySnapshot.forEach((doc) => {
+    //   setRooms((prev) => [...prev, { id: doc.id, data: doc.data() }]);
+    // });
+  };
+
+  const openInputDialog = () => {
+    setinputDialog((prev) => ({ ...prev, isVisible: true }));
+  };
+
+  const addRoomToChats = async () => {
+    const roomId = state.user.uid;
+
+    if (inputDialog.roomName !== "") {
+      const newRoomRef = await createRoomInFireStoreBasedOnUserId(
+        "rooms",
+        inputDialog.roomName,
+        "online"
+      );
+
+      // create a messages collection inside rooms collection specific document
+      const messagesRef = collection(newRoomRef, "messages");
+
+      // set some message to message collection to create messages collection in firestore
+      await addDoc(messagesRef, {
+        name: state.displayName,
+        text: "hii",
+        timestamp: serverTimestamp(),
+      });
+
+      setinputDialog((prev) => ({ ...prev, isVisible: false }));
+    } else {
+      alert("Please enter a room name");
+    }
   };
 
   return (
@@ -51,7 +102,53 @@ export default function SideBar() {
           </div>
         </div>
         <div className="sidebar-chats">
-          <h2 className="sidebar-chats-title">Chats</h2>
+          <div className="sidebar-chats-room-header">
+            <h2 className="sidebar-chats-title">Chats</h2>
+            <svg
+              onClick={openInputDialog}
+              xmlns="http://www.w3.org/2000/svg"
+              className="ionicon"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                fill="none"
+                stroke="currentColor"
+                strokeMiterlimit="10"
+                strokeWidth="32"
+              />
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="32"
+                d="M256 176v160M336 256H176"
+              />
+            </svg>
+          </div>
+          {inputDialog.isVisible && (
+            <div className="input-dialog-wrapper">
+              <div className="input-dialog-card">
+                <label htmlFor="inputRoomName">Room name</label>
+                <input
+                  type="text"
+                  name="RoomName"
+                  id="inputRoomName"
+                  value={inputDialog.roomName}
+                  onChange={(e) =>
+                    setinputDialog((prev) => ({
+                      ...prev,
+                      roomName: e.target.value,
+                    }))
+                  }
+                />
+                <button className="input-dialog-btn" onClick={addRoomToChats}>
+                  Create Room
+                </button>
+              </div>
+            </div>
+          )}
           <div className="sidebar-chats-user-container">
             {rooms.map(({ id, data }) => (
               <SidebarChat key={id} roomId={id} chatName={data.name} />

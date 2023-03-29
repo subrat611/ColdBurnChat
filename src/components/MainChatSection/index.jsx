@@ -29,7 +29,7 @@ export default function MainChatSection() {
 
   const nestDocSnap = readNestedCollectionFromFirestore(
     "rooms",
-    "debZmwHYzaZlujCHfGgp",
+    roomId,
     "messages"
   );
 
