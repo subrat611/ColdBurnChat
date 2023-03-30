@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import {
   onAuthStateChangedListener,
   readCollectionFromFirestoreBasedOnId,
@@ -20,17 +26,7 @@ export const UserProvider = ({ children }) => {
 
   const setUserInfo = async (user) => {
     if (user) {
-      const docSnap = await readCollectionFromFirestoreBasedOnId(
-        "users",
-        user.uid
-      );
-
-      dispatch({
-        type: SETUSER,
-        user: user,
-        displayName: docSnap.data().name,
-        status: docSnap.data().status,
-      });
+      await readCollectionFromFirestoreBasedOnId("users", user.uid);
     }
   };
 

@@ -8,10 +8,11 @@ import { useStateValue } from "../context/User";
 
 import chatIcon from "../../assets/chat.png";
 import "./login.scss";
+import { SETUSER } from "../reducer";
 
 export default function Login() {
   const [displayName, setDisplayname] = useState("");
-  const [state, _] = useStateValue();
+  const [state, dispatch] = useStateValue();
 
   const handleLogin = async () => {
     if (displayName !== "") {
@@ -24,6 +25,13 @@ export default function Login() {
           displayName,
           "online"
         );
+
+        dispatch({
+          type: SETUSER,
+          user: user,
+          displayName,
+          status: "online",
+        });
       }
     } else alert("Please enter a display name");
   };
