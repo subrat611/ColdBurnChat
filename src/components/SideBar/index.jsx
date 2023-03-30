@@ -50,7 +50,7 @@ export default function SideBar() {
   };
 
   const openInputDialog = () => {
-    setinputDialog((prev) => ({ ...prev, isVisible: true }));
+    setinputDialog((prev) => ({ ...prev, isVisible: !prev.isVisible }));
   };
 
   const addRoomToChats = async () => {
