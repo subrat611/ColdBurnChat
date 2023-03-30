@@ -39,24 +39,25 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-
+    
     .main-chat-body-msg-sender,
     .main-chat-body-msg-receiver {
       color: $primary-dark-bg;
       background-color: $primary-bg;
       width: fit-content;
       padding: 0.5rem 1rem;
+      margin-top: 2.5rem;
       border-radius: 50px;
       font-weight: $fw-opensans-semibold;
       display: flex;
       align-items: center;
-      margin-top: 2rem;
       position: relative;
 
       .msg-owner-sender-name,
       .msg-owner-receiver-name {
+        width: max-content;
         position: absolute;
-        top: -25px;
+        top: -24px;
         color: $primary-bg;
         text-transform: capitalize;
       }
