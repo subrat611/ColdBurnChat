@@ -4,7 +4,7 @@
 
 <h3><img align="center" height="30" src="https://user-images.githubusercontent.com/77252075/217149827-cfed2bf9-caf7-4e9b-806a-efd99d23c6c5.png"> completed</h3>
 
-![ezgif com-video-to-gif](https://user-images.githubusercontent.com/77252075/228796955-1d9353f5-4699-49f4-ae1a-cccfa53bb4ad.gif)
+![image](https://user-images.githubusercontent.com/77252075/228798267-37795d20-a946-4443-9112-e3b93f79e125.png)
 
 ## Overview
 
