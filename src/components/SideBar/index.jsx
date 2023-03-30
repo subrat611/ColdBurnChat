@@ -73,7 +73,7 @@ export default function SideBar() {
         timestamp: serverTimestamp(),
       });
 
-      setinputDialog((prev) => ({ ...prev, isVisible: false }));
+      setinputDialog((prev) => ({ ...prev, isVisible: false, roomName: "" }));
     } else {
       alert("Please enter a room name");
     }
@@ -150,8 +150,13 @@ export default function SideBar() {
             </div>
           )}
           <div className="sidebar-chats-user-container">
-            {rooms.map(({ id, data }) => (
-              <SidebarChat key={id} roomId={id} chatName={data.name} />
+            {rooms.map(({ id, data }, i) => (
+              <SidebarChat
+                index={i}
+                key={id}
+                roomId={id}
+                chatName={data.name}
+              />
             ))}
           </div>
         </div>
